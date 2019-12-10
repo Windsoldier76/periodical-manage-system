@@ -51,15 +51,14 @@
               <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-0">
                 <div class="agileits-login">
                   <form action="#" method="post">
-                    <input type="text" class="username" name="Username" placeholder="Username" required=""/>
-                    <input type="password" class="password" name="Password" placeholder="Password" required=""/>
+                    {% csrf_token %}
+                    {{loginform.user_name}}
+                    {{loginform.user_password}}
+                    <!--<input type="text" class="username" name="Username" placeholder="Username" required=""/>
+                    <input type="password" class="password" name="Password" placeholder="Password" required=""/>-->
                     <div class="wthree-text">
                       <ul>
                         <li>
-													<label class="anim">
-                            <input type="checkbox" class="checkbox" />
-                            <span> 管理员</span>
-                          </label><br><br>
                           <label class="anim">
                             <input type="checkbox" class="checkbox" />
                             <span> 记住账号</span>
@@ -81,6 +80,7 @@
                 <div class="login-top sign-top">
                   <div class="agileits-login">
                     <form action="#" method="post">
+                      {% csrf_token %}
                       <input type="text" name="Username" placeholder="Username" required=""/>
                       <input type="text" class="email" name="Email" placeholder="Email" required=""/>
                       <input type="password" class="password" name="Password" placeholder="Password" required=""/><br>
