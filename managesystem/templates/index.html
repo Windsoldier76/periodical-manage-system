@@ -1,42 +1,108 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
+<html>
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MTJJ图书管理系统</title>
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-    {% load static %}
-    <link href="{% static "css/signin.css" %}" rel="stylesheet">
-    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
-
+    <title>
+      MTJJ图书管理系统
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="application/javascript">
+			addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+		</script>
+		<!--因为chrome等浏览器会有滚动缓存功能，比如你在A页面滚动后跳转到B页面，
+			点击返回键回到A页面，会发现滚动条位置仍然保持，这是个不错的功能，
+			但是可能在某些特殊场景不适用，所以会出现上述代码。-->
+    <!-- Custom Theme files -->
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <!-- //Custom Theme files -->
+    <!-- web font -->
+    <link href="//fonts.googleapis.com/css?family=Text+Me+One" rel="stylesheet" type="text/css"/>
+    <!-- //web font -->
+    <!-- js -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <script src="../static/js/easyResponsiveTabs.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $("#horizontalTab").easyResponsiveTabs({
+          type: "default", //Types: default, vertical, accordion
+          width: "auto", //auto or any width like 600px
+          fit: true // 100% fit in a container
+        });
+      });
+    </script>
+    <!-- //js -->
   </head>
   <body>
-
-    <div class="container">
-
-      <form class="form-signin">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <label for="inputUsername" class="sr-only">Username</label>
-        <input type="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
+    <!-- main -->
+    <div class="main">
+      <h1>MTJJ图书管理系统</h1>
+      <div class="main-info">
+        <div class="sap_tabs">
+          <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
+            <ul class="resp-tabs-list">
+              <li class="resp-tab-item" aria-controls="tab_item-0">
+                <h2><span>登录</span></h2>
+              </li>
+              <li class="resp-tab-item" aria-controls="tab_item-1">
+                <span>注册</span>
+              </li>
+            </ul>
+            <div class="clear"></div>
+            <div class="resp-tabs-container">
+              <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-0">
+                <div class="agileits-login">
+                  <form action="#" method="post">
+                    <input type="text" class="username" name="Username" placeholder="Username" required=""/>
+                    <input type="password" class="password" name="Password" placeholder="Password" required=""/>
+                    <div class="wthree-text">
+                      <ul>
+                        <li>
+													<label class="anim">
+                            <input type="checkbox" class="checkbox" />
+                            <span> 管理员</span>
+                          </label><br><br>
+                          <label class="anim">
+                            <input type="checkbox" class="checkbox" />
+                            <span> 记住账号</span>
+													</label>
+                        </li>
+                        <li><br><br><a href="#">忘记密码？</a></li>
+                      </ul>
+                      <div class="clear"></div>
+                    </div>
+                    <div class="w3ls-submit">
+                      <div class="submit-text">
+                        <input type="submit" value="登录" />
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-1">
+                <div class="login-top sign-top">
+                  <div class="agileits-login">
+                    <form action="#" method="post">
+                      <input type="text" name="Username" placeholder="Username" required=""/>
+                      <input type="text" class="email" name="Email" placeholder="Email" required=""/>
+                      <input type="password" class="password" name="Password" placeholder="Password" required=""/>
+                      <label class="anim">
+                        <input type="checkbox" class="checkbox" />
+                        <span> 我同意注册条款</span>
+                      </label>
+                      <div class="w3ls-submit">
+                        <div class="submit-text">
+                          <input class="register" type="submit" value="注册"/>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="clear"></div>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      </form>
-
-    </div> <!-- /container -->
-
-
-    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
-    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+      </div>
+    </div>
+    <!-- //main -->
   </body>
 </html>
