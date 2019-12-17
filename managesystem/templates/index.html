@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>
-      MTJJ图书管理系统
+      MTJJ期刊管理系统
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -34,7 +34,7 @@
   <body>
     <!-- main -->
     <div class="main">
-      <h1>MTJJ图书管理系统</h1>
+      <h1>MTJJ期刊管理系统</h1>
       <div class="main-info">
         <div class="sap_tabs">
           <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
@@ -97,6 +97,13 @@
                   </div>
                 </div>
               </div>
+              {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+              {% endif %}
             </div>
           </div>
           <div class="clear"></div>

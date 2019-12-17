@@ -2,9 +2,9 @@ from django.db import models
 
 # Create your models here.
 class User(models.Model):
-    user_name = models.CharField(max_length=15, primary_key=True)
-    user_password = models.CharField(max_length=30)
-    user_email = models.CharField(max_length=30)
+    user_name = models.CharField(max_length=15, primary_key=True, default='admin')
+    user_password = models.CharField(max_length=30, default='123456')
+    user_email = models.CharField(max_length=30, default='')
     isadmin = models.IntegerField(default=0)
 
 class Periodical(models.Model):
