@@ -52,8 +52,8 @@
                 <div class="agileits-login">
                   <form action="#" method="post">
                     {% csrf_token %}
-                    {{loginform.user_name}}
-                    {{loginform.user_password}}
+                    {{login_form.user_name}}
+                    {{login_form.user_password}}
                     <!--<input type="text" class="username" name="Username" placeholder="Username" required=""/>
                     <input type="password" class="password" name="Password" placeholder="Password" required=""/>-->
                     <div class="wthree-text">
@@ -81,9 +81,12 @@
                   <div class="agileits-login">
                     <form action="#" method="post">
                       {% csrf_token %}
-                      <input type="text" name="Username" placeholder="Username" required=""/>
+                      {{signin_form.user_name}}
+                      {{signin_form.user_email}}
+                      {{signin_form.user_password}}
+                      <!--<input type="text" name="Username" placeholder="Username" required=""/>
                       <input type="text" class="email" name="Email" placeholder="Email" required=""/>
-                      <input type="password" class="password" name="Password" placeholder="Password" required=""/><br>
+                      <input type="password" class="password" name="Password" placeholder="Password" required=""/><br>-->
                       <label class="anim">
                         <input type="checkbox" class="checkbox" />
                         <span> 我同意注册条款</span>
@@ -97,13 +100,14 @@
                   </div>
                 </div>
               </div>
+              <!--警告页面
               {% if messages %}
                 <ul class="messages">
                     {% for message in messages %}
                     <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
                     {% endfor %}
                 </ul>
-              {% endif %}
+              {% endif %}-->
             </div>
           </div>
           <div class="clear"></div>

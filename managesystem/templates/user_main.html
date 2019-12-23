@@ -24,7 +24,7 @@
   </head>
 
   <body>
-    <div class="main ">
+    <div class="main">
       <head>
         <nav class="navbar navbar-default" role="navigation">
           <h4 class="navbar-text">MTJJ期刊管理系统</h4>
@@ -79,11 +79,11 @@
                     </thead>
                 <br>
                 <tbody>
-                    {% for line in data %}
+                    {% for books in perioList %}
                     <tr>
-                        <td align="left" class="alt">{{}}</td>
-                        <td align="left" class="alt">{{}}</td>
-                        <td align="left" class="alt">{{}}</td>
+                        <td align="left" class="alt">{{books.book_sign}}</td>
+                        <td align="left" class="alt">{{books.name}}</td>
+                        <td align="left" class="alt">{{books.residue}}</td>
                         <td align="left" class="alt"><button type="button" class="btn btn-default" style="background-color: royalblue;color: aliceblue;">登记借书</button><p style="color: darkgray;">已借出</p></td>
                     </tr>
                     {% endfor %}

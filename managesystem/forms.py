@@ -1,23 +1,17 @@
-from django.forms import ModelForm, TextInput, PasswordInput
-from .models import User
+from django import forms
+from .models import *
 
 
-class LoginForm(ModelForm):
-    class Meta:
-        model = User
-        fields = ['user_name', 'user_password']
-        widgets = {
-            'user_name': TextInput(attrs={'placeholder': 'Username'}),
-            'user_password': PasswordInput(attrs={'placeholder': 'Password'})
-        }
+class LoginForm(forms.Form):
+    user_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Username'}))
+    user_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
 
 
-class SigninForm(ModelForm):
-    class Meta:
-        model = User
-        fields = ['user_name', 'user_email', 'user_password']
-        widgets = {
-            'user_name': TextInput(attrs={'placeholder': 'Username'}),
-            'user_email':TextInput(attrs={'placeholder': 'Email'}),
-            'user_password': PasswordInput(attrs={'placeholder': 'Password'})
-        }
+class SigninForm(forms.Form):
+    user_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Username'}))
+    user_email = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
+    user_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+
+
+class UserForm(forms.Form):
+    pass
