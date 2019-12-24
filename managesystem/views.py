@@ -1,8 +1,9 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
 # Create your views here.
 from django.contrib import messages
 from .forms import LoginForm, SigninForm
-from .models import *
+from .models import User, Periodical, PeriodicalIndex
 
 def index(request):
     if request.method == 'GET':
@@ -25,9 +26,9 @@ def index(request):
                 if true_password == user_password:
                     isadmin = user.isadmin
                     if isadmin:
-                        return render(request, 'user_main.html')#TODO: change admin.html
+                        return redirect('admin_main')#TODO: change admin.html
                     else:
-                        return render(request, 'user_main.html')
+                        return redirect('userPage')
                 else:
                     pass
                     # TODO:messages.info(request, '密码错误!')
@@ -59,7 +60,7 @@ def index(request):
                     # TODO:messages.info(request, '注册失败！')
             return render(request, 'index.html', {'login_form': login_form, 'sign_inform': signin_form})
 
-def user_main(request):
+def userPage(request):
     if request.method == 'GET':
         periodical = Periodical.object.all()
         periodicalIndex = PeriodicalIndex.object.all()

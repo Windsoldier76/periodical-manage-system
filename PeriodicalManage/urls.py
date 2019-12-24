@@ -20,5 +20,6 @@ from managesystem import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('login/user_main.html', views.userPage, name='userPage'),
     path('admin/', admin.site.urls),
 ]
