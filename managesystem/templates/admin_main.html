@@ -24,21 +24,21 @@
   </head>
 
   <body>
-    <div class="main">
+    <div class="main ">
       <head>
         <nav class="navbar navbar-default" role="navigation">
           <h4 class="navbar-text">MTJJ期刊管理系统</h4>
           <ul class="nav navbar-nav">
             <li class="active">
-              <a href="#">期刊查询</a>
+              <a href="#">期刊管理</a>
             </li>
             <li>
-              <a href="#">已借阅期刊</a>
+              <a href="#">期刊征订</a>
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-left">
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">用户<span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">管理员<span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li>
                   <a data-toggle="modal" data-target="#myModal">修改密码</a>
@@ -75,7 +75,7 @@
       <div class="main-info" style="width:80%;margin: auto;">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">期刊查询</h3>
+            <h3 class="panel-title">期刊管理</h3>
           </div>
           <div class="row">
             <div class="col-lg-12">
@@ -98,16 +98,16 @@
                         <th align="left" class="table-th">编号</th>
                         <th align="left" class="table-th">书名</th>
                         <th align="left" class="table-th">状态</th><!--拥有 “借出” 和 “在库” 两种状态-->
-                        <th align="left" class="table-th">操作</th><!--判断 借出时为灰字 “借出”，在库时为按钮 “登记借书”-->
+                        <th align="left" class="table-th">操作</th><!--判断 当期刊在库时，可以进行删除操作，否则为灰色的 “无法操作”-->
                     </thead>
                 <br>
                 <tbody>
-                    {% for books in perioList %}
+                    {% for line in data %}
                     <tr>
-                        <td align="left" class="alt">{{books.book_sign}}</td>
-                        <td align="left" class="alt">{{books.name}}</td>
-                        <td align="left" class="alt">{{books.residue}}</td>
-                        <td align="left" class="alt"><button type="button" class="btn btn-default" style="background-color: royalblue;color: aliceblue;">登记借书</button><p style="color: darkgray;">已借出</p></td>
+                        <td align="left" class="alt">{{}}</td>
+                        <td align="left" class="alt">{{}}</td>
+                        <td align="left" class="alt">{{}}</td>
+                        <td align="left" class="alt"><button type="button" class="btn btn-default" style="background-color:red;color: aliceblue;">删除</button><p style="color: darkgray;">已借出</p></td>
                     </tr>
                     {% endfor %}
                 </tbody>
