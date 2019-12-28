@@ -8,7 +8,7 @@ class User(models.Model):
     isadmin = models.IntegerField(default=0)
 
 class Periodical(models.Model):
-    book_sign = models.CharField(primary_key=True, max_length=5)
+    id = models.AutoField(primary_key=True)
     issn = models.ForeignKey('PeriodicalIndex', to_field='issn', on_delete='CASCADE')
     year = models.CharField(max_length=4)
     volume = models.IntegerField()
@@ -17,9 +17,9 @@ class Periodical(models.Model):
     residue = models.IntegerField()
 
 class PeriodicalInfo(models.Model):
-    paper_sign = models.CharField(primary_key=True, max_length=8)
+    id = models.AutoField(primary_key=True)
     paper_name = models.CharField(max_length=50)
-    book_sign = models.ForeignKey('Periodical', to_field='book_sign', on_delete='CASCADE')
+    book_id = models.ForeignKey('Periodical', to_field='id', on_delete='CASCADE')
     first_author = models.CharField(max_length=8)
     second_author = models.CharField(blank=True, max_length=8)
     third_author = models.CharField(blank=True, max_length=8)
@@ -32,18 +32,19 @@ class PeriodicalInfo(models.Model):
     page = models.IntegerField()
 
 class PeriodicalIndex(models.Model):
-    issn = models.CharField(primary_key=True, max_length=9)
+    id = models.AutoField(primary_key=True)
+    issn = models.CharField(max_length=9, unique=True)
     name = models.CharField(max_length=16)
-    sign = models.CharField(max_length=7)
+    postsign = models.CharField(max_length=7)
 
 class Borrow(models.Model):
-    borrow_sign = models.CharField(primary_key=True, max_length=8)
+    id = models.AutoField(primary_key=True)
     user_name = models.ForeignKey('User', to_field='user_name', on_delete='CSCADE')
-    book_sign = models.ForeignKey('Periodical', to_field='book_sign', on_delete='CSCADE')
-    borrow_date = models.DateTimeField()
-    back_date = models.DateTimeField()
+    book_id = models.ForeignKey('Periodical', to_field='id', on_delete='CSCADE')
+    borrow_date = models.DateTimeField(auto_now_add=True)
+    back_date = models.DateTimeField(null=True, blank=True)
 
 class Purchase(models.Model):
-    purchase_sign = models.CharField(primary_key=True, max_length=8)
+    id = models.AutoField(primary_key=True)
     issn = models.ForeignKey('PeriodicalIndex', to_field='issn', on_delete='CASCADE')
     year = models.IntegerField()

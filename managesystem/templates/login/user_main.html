@@ -33,12 +33,12 @@
               <a href="#">期刊查询</a>
             </li>
             <li>
-              <a href="#">已借阅期刊</a>
+              <a href="{% url 'borrowShow' username %}">已借阅期刊</a>
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-left">
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">用户<span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{username}}<span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li>
                   <a data-toggle="modal" data-target="#myModal">修改密码</a>
@@ -96,19 +96,36 @@
               <table class="table table-striped" style="width:80%;margin: auto;">
                 <thead>
                         <th align="left" class="table-th">编号</th>
-                        <th align="left" class="table-th">书名</th>
+                        <th align="left" class="table-th">期刊名</th>
+                        <th align="left" class="table-th">年</th>
+                        <th align="left" class="table-th">卷</th>
+                        <th align="left" class="table-th">期</th>
                         <th align="left" class="table-th">状态</th><!--拥有 “借出” 和 “在库” 两种状态-->
                         <th align="left" class="table-th">操作</th><!--判断 借出时为灰字 “借出”，在库时为按钮 “登记借书”-->
                     </thead>
                 <br>
                 <tbody>
                     {% for books in perioList %}
-                    <tr>
-                        <td align="left" class="alt">{{books.book_sign}}</td>
-                        <td align="left" class="alt">{{books.name}}</td>
-                        <td align="left" class="alt">{{books.residue}}</td>
-                        <td align="left" class="alt"><button type="button" class="btn btn-default" style="background-color: royalblue;color: aliceblue;">登记借书</button><p style="color: darkgray;">已借出</p></td>
-                    </tr>
+                        <tr>
+                            <td align="left" class="alt">{{books.id}}</td>
+                          {% for bookindex in perioindexList %}
+                            {% if books.issn == bookindex %}
+                            <td align="left" class="alt">{{bookindex.name}}</td>
+                            {% endif %}
+                          {% endfor %}
+                            <td align="left" class="alt">{{books.year}}</td>
+                            <td align="left" class="alt">{{books.volume}}</td>
+                            <td align="left" class="alt">{{books.issue}}</td>
+                            <td align="left" class="alt">{{books.residue}}</td>
+                            <td align="left" class="alt">
+                              {% if books.residue > 0 %}
+                                <button type="button" class="btn btn-default" style="background-color: royalblue;color: aliceblue;" onclick="location.href='{% url 'borrowBook' username books.id %}'">登记借书</button>
+                                <p style="color: darkgray;">剩余{{books.residue}}本</p>
+                              {% else %}
+                              <p style="color: darkgray;">已全部借出</p>
+                              {% endif %}
+                            </td>
+                        </tr>
                     {% endfor %}
                 </tbody>
             </table>

@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import ModelForm
 from .models import *
 
 
@@ -12,6 +13,9 @@ class SigninForm(forms.Form):
     user_email = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
     user_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
 
-
-class UserForm(forms.Form):
-    pass
+'''
+class periodicalindexForm(ModelForm):
+    class Meta:
+        model = PeriodicalIndex
+        fields = ['issn', 'name']
+'''

@@ -1,0 +1,23 @@
+<html>
+<body>
+这是借阅页面
+{% for borrow in borrowList %}
+    <p>借阅id：{{borrow.id}}</p>
+    {% for book in perioList %}
+    {% if borrow.book_id == book %}
+        {% for bookindex in perioindexList %}
+        {% if book.issn == bookindex %}
+            <p>期刊名：{{bookindex.name}}</p>
+        {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% endfor %}
+    <p>借阅日期：{{borrow.borrow_date}}</p>
+    {% if borrow.back_date %}
+        <p>归还日期：{{borrow.back_date}}</p>
+    {% else %}
+        <button onclick="location.href='{% url 'backBook' username borrow.id %}'">归还</button>
+    {% endif %}
+{% endfor %}
+</body>
+</html>
