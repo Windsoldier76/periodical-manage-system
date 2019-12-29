@@ -41,7 +41,7 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{username}}<span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li>
-                  <a data-toggle="modal" data-target="#myModal">修改密码</a>
+                  <a data-toggle="modal" data-target="#myModal" href="{% url 'changePass' username %}">修改密码</a>
                   <!-- 模态框（Modal） -->
                   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -64,7 +64,7 @@
                 </li>
                 <li role="separator" class="divider"></li>
                 <li>
-                  <a href="#">注销</a>
+                  <a href="{% url 'index' %}">注销</a>
                 </li>
               </ul>
             </li>
@@ -80,18 +80,20 @@
           <div class="row">
             <div class="col-lg-12">
               <div class="input-group">
-                <span class="input-group-addon">
-                  <label>
-                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>关键字查询
-                  </label>
-                  <label>
-                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">编号查询
-                  </label>
-                </span>
-                <input type="text" class="form-control" aria-label="...">
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="button">搜索</button>
-                </span>
+                <form action="{% url 'userPage' username %}" method="get">
+                  <span class="input-group-addon">
+                    <label>
+                      <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>关键字查询
+                    </label>
+                    <label>
+                      <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">书籍编号查询
+                    </label>
+                  </span>
+                  <input type="text" name="search" class="form-control" aria-label="...">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">搜索</button>
+                  </span>
+                </form>
               </div><!-- /input-group -->
               <table class="table table-striped" style="width:80%;margin: auto;">
                 <thead>
@@ -106,13 +108,11 @@
                 <br>
                 <tbody>
                     {% for books in perioList %}
+                      {% for bookindex in perioindexList %}
+                        {% if books.issn == bookindex %}
                         <tr>
                             <td align="left" class="alt">{{books.id}}</td>
-                          {% for bookindex in perioindexList %}
-                            {% if books.issn == bookindex %}
-                            <td align="left" class="alt">{{bookindex.name}}</td>
-                            {% endif %}
-                          {% endfor %}
+                            <td align="left" class="alt"><a href="{% url 'perioInfo' username books.id %}">{{bookindex.name}}</a></td>
                             <td align="left" class="alt">{{books.year}}</td>
                             <td align="left" class="alt">{{books.volume}}</td>
                             <td align="left" class="alt">{{books.issue}}</td>
@@ -126,6 +126,8 @@
                               {% endif %}
                             </td>
                         </tr>
+                        {% endif %}
+                      {% endfor %}
                     {% endfor %}
                 </tbody>
             </table>

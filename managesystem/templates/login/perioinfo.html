@@ -1,0 +1,13 @@
+<html>
+<body>
+这是期刊信息界面
+<p>期刊名：{{article.book_id.issn.name}}</p>
+<p>-------------------------------------</p>
+{% for article in articleList %}
+    <p>文章id：{{article.id}}</p>
+    <p>文章名：{{article.paper_name}}</p>
+    <p>其他信息：{{article.first_author}}  {{article.page}}</p>
+    <p>------这是一个分割线--------</p>
+{% endfor %}
+</body>
+</html>
