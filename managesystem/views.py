@@ -123,13 +123,16 @@ def userPage(request, user_name):
 
 def perioInfo(request, user_name, book_id):
     # 期刊信息
+    user = User.objects.get(user_name=user_name)
     if request.method == 'GET':
         change_form = ChangeForm()
         periodical = Periodical.objects.get(id=book_id)
         articleList = PeriodicalInfo.objects.filter(book_id=periodical)
+        isadmin = user.isadmin
         return render(request, 'login/perioinfo.html', {'articleList': articleList,
                                                         'username':user_name,
-                                                        'ChangeForm': change_form})
+                                                        'ChangeForm': change_form,
+                                                        'isadmin':isadmin})
     elif request.method == 'POST':
         change_form = ChangeForm(request.POST)
         if change_form.is_valid():
@@ -137,7 +140,6 @@ def perioInfo(request, user_name, book_id):
             new_password = change_form.cleaned_data['new_password']
             confirm_password = change_form.cleaned_data['confirm_password']
 
-            user = User.objects.get(user_name=user_name)
             if old_password == user.user_password:
                 if new_password == confirm_password:
                     user.user_password = new_password
