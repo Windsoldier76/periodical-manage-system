@@ -1,13 +1,130 @@
 <html>
-<body>
-这是期刊信息界面
-<p>期刊名：{{article.book_id.issn.name}}</p>
-<p>-------------------------------------</p>
-{% for article in articleList %}
-    <p>文章id：{{article.id}}</p>
-    <p>文章名：{{article.paper_name}}</p>
-    <p>其他信息：{{article.first_author}}  {{article.page}}</p>
-    <p>------这是一个分割线--------</p>
-{% endfor %}
-</body>
+    <head>
+    <title>
+        MTJJ期刊管理系统
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="application/javascript">
+			addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+		</script>
+		<!--因为chrome等浏览器会有滚动缓存功能，比如你在A页面滚动后跳转到B页面，
+			点击返回键回到A页面，会发现滚动条位置仍然保持，这是个不错的功能，
+      但是可能在某些特殊场景不适用，所以会出现上述代码。-->
+    <!-- Custom Theme files -->
+    <!--link href="../static/css/style.css" rel="stylesheet" type="text/css" media="all"/-->
+    <!-- //Custom Theme files -->
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- //Bootstrap -->
+    <!-- web font -->
+    <link href="../static/font/i7dOIFdlayuLUvgoFvHQFVZbYFc.woff2" rel="stylesheet" type="text/css"/>
+    <link href="../static/font/i7dOIFdlayuLUvgoFvHQFVZVYFeCGg.woff2" rel="stylesheet" type="text/css"/>
+    <!-- //web font -->
+  </head>
+
+  <body>
+
+    <div class="main">
+      <head>
+        <nav class="navbar navbar-default" role="navigation">
+          <h4 class="navbar-text">MTJJ期刊管理系统</h4>
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="#">期刊查询</a>
+            </li>
+            <li>
+              <a href="{% url 'borrowShow' username %}">已借阅期刊</a>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-left">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{username}}<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a data-toggle="modal" data-target="#myModal" href="{% url 'changePass' username %}">修改密码</a>
+                </li>
+                <li role="separator" class="divider"></li>
+                <li>
+                  <a href="{% url 'index' %}">注销</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+      </head>
+
+
+      <div class="main-info" style="width:80%;margin: auto;">
+        <div class="panel panel-default">
+          <div class="panel-heading>
+            <h3 class="panel-title">期刊信息</h3>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <table class="table table-striped" style="width:80%;margin: auto;">
+                <thead>
+                  <tr>
+                    <th align="left" class="table-th">期刊名</th>
+                    <th align="left" class="table-th">文章ID</th>
+                    <th align="left" class="table-th">文章名</th>
+                    <th align="left" class="table-th">其他信息</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for article in articleList %}
+                    <tr>
+                      <td align="left" class="alt">{{article.book_id.issn.name}}</td>
+                      <td align="left" class="alt">{{article.id}}</td>
+                      <td align="left" class="alt">{{article.paper_name}}</td>
+                      <td align="left" class="alt">：{{article.first_author}}  {{article.page}}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div><!--/col-lg-12-->
+          </div><!--/row-->
+        </div><!--/panel-->
+      </div><!--/main-info-->
+
+
+      <!-- 模态框（Modal） -->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
+            </div>
+            <div class="modal-body">按下 ESC 按钮退出。</div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              <button type="button" class="btn btn-primary">提交更改</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+      <script>
+        $(function () { $('#myModal').modal({keyboard: true})});
+      </script>
+    </div>
+
+
+    这是期刊信息界面
+    <p>期刊名：{{article.book_id.issn.name}}</p>
+    <p>-------------------------------------</p>
+    {% for article in articleList %}
+        <p>文章id：{{article.id}}</p>
+        <p>文章名：{{article.paper_name}}</p>
+        <p>其他信息：{{article.first_author}}  {{article.page}}</p>
+        <p>------这是一个分割线--------</p>
+    {% endfor %}
+
+
+
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+  </body>
 </html>
