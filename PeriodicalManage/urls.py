@@ -23,9 +23,10 @@ urlpatterns = [
     # path('login/user_main.html', views.userPage, name='userPage'),
     path(r'login/user_main/(?<user_name>)', views.userPage, name='userPage'),
     path(r'login/admin_main/(?<user_name>)', views.adminPage, name='adminPage'),
+    path(r'login/admin_main/purchase/(?<user_name>)', views.adminPurchase, name='adminPurchase'),
     path(r'login/user_main/perioinfo/(?<user_name>)/(?<book_id>)', views.perioInfo, name='perioInfo'),
     path(r'login/user_main/borrow/(?<user_name>)/(?<book_id>)', views.borrowBook, name='borrowBook'),
     path(r'login/user_main/hasborrow/(?<user_name>)', views.borrowShow, name='borrowShow'),
     path(r'login/user_main/backBook/(?<user_name>)/(?<borrow_id>)', views.backBook, name='backBook'),
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name='ADMIN'),
 ]

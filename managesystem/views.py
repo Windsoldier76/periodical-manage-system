@@ -250,3 +250,27 @@ def adminPage(request, user_name):
                     user.save()
 
         return redirect('adminPage', user_name=user_name)
+
+
+def adminPurchase(request, user_name):
+    if request.method == 'GET':
+        change_form = ChangeForm()
+        purchaseList = Purchase.objects.all()
+        return render(request, 'login/purchase.html', {'purchaseList':purchaseList,
+                                                       'username':user_name,
+                                                       'ChangeForm':change_form})
+
+    elif request.method == 'POST':
+        change_form = ChangeForm(request.POST)
+        if change_form.is_valid():
+            old_password = change_form.cleaned_data['old_password']
+            new_password = change_form.cleaned_data['new_password']
+            confirm_password = change_form.cleaned_data['confirm_password']
+
+            user = User.objects.get(user_name=user_name)
+            if old_password == user.user_password:
+                if new_password == confirm_password:
+                    user.user_password = new_password
+                    user.save()
+
+        return redirect('adminPurchase', user_name=user_name)

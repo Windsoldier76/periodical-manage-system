@@ -86,7 +86,6 @@
                         <th align="left" class="table-th">年</th>
                         <th align="left" class="table-th">卷</th>
                         <th align="left" class="table-th">期</th>
-                        <th align="left" class="table-th">状态</th><!--拥有 “借出” 和 “在库” 两种状态-->
                         <th align="left" class="table-th">操作</th><!--判断 借出时为灰字 “借出”，在库时为按钮 “登记借书”-->
                     </thead>
                 <br>
@@ -100,7 +99,6 @@
                             <td align="left" class="alt">{{books.year}}</td>
                             <td align="left" class="alt">{{books.volume}}</td>
                             <td align="left" class="alt">{{books.issue}}</td>
-                            <td align="left" class="alt">{{books.residue}}</td>
                             <td align="left" class="alt">
                               {% if books.residue > 0 %}
                                 <button type="button" class="btn btn-default" style="background-color: royalblue;color: aliceblue;" onclick="location.href='{% url 'borrowBook' username books.id %}'">登记借书</button>
