@@ -77,19 +77,36 @@
               <table class="table table-striped" style="width:80%;margin: auto;">
                 <thead>
                         <th align="left" class="table-th">编号</th>
-                        <th align="left" class="table-th">书名</th>
+                        <th align="left" class="table-th">期刊名</th>
+                        <th align="left" class="table-th">年</th>
+                        <th align="left" class="table-th">卷</th>
+                        <th align="left" class="table-th">期</th>
                         <th align="left" class="table-th">状态</th><!--拥有 “借出” 和 “在库” 两种状态-->
-                        <th align="left" class="table-th">操作</th><!--判断 当期刊在库时，可以进行删除操作，否则为灰色的 “无法操作”-->
+                        <th align="left" class="table-th">操作</th><!--判断 借出时为灰字 “借出”，在库时为按钮 “登记借书”-->
                     </thead>
                 <br>
                 <tbody>
-                    {% for line in data %}
-                    <tr>
-                        <td align="left" class="alt">{{}}</td>
-                        <td align="left" class="alt">{{}}</td>
-                        <td align="left" class="alt">{{}}</td>
-                        <td align="left" class="alt"><button type="button" class="btn btn-default" style="background-color:red;color: aliceblue;">删除</button><p style="color: darkgray;">已借出</p></td>
-                    </tr>
+                    {% for books in perioList %}
+                      {% for bookindex in perioindexList %}
+                        {% if books.issn == bookindex %}
+                        <tr>
+                            <td align="left" class="alt">{{books.id}}</td>
+                            <td align="left" class="alt"><a href="{% url 'perioInfo' username books.id %}">{{bookindex.name}}</a></td>
+                            <td align="left" class="alt">{{books.year}}</td>
+                            <td align="left" class="alt">{{books.volume}}</td>
+                            <td align="left" class="alt">{{books.issue}}</td>
+                            <td align="left" class="alt">{{books.residue}}</td>
+                            <td align="left" class="alt">
+                              {% if books.residue > 0 %}
+                                <button type="button" class="btn btn-default" style="background-color: royalblue;color: aliceblue;" onclick="location.href='{% url 'borrowBook' username books.id %}'">登记借书</button>
+                                <p style="color: darkgray;">剩余{{books.residue}}本</p>
+                              {% else %}
+                              <p style="color: darkgray;">已全部借出</p>
+                              {% endif %}
+                            </td>
+                        </tr>
+                        {% endif %}
+                      {% endfor %}
                     {% endfor %}
                 </tbody>
             </table>
@@ -108,14 +125,21 @@
                 <h4 class="modal-title" id="myModalLabel">修改密码</h4>
               </div>
               <div class="modal-body">
-                <div class="input-group">
-                  <span class="input-group-addon">新密码</span>
-                  <input type="password" class="form-control" placeholder="New password">
+                <form method="post">
                   {% csrf_token %}
-                  {{ChangeForm.old_password}}
-                  {{ChangeForm.new_password}}
-                  {{ChangeForm.confirm_password}}
-                </div><br>
+                  <div class="input-group">
+                    <span class="input-group-addon">旧密码</span>
+                    {{ChangeForm.old_password}}
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon">新密码</span>
+                    {{ChangeForm.new_password}}
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon">新密码again</span>
+                    {{ChangeForm.confirm_password}}
+                  </div>
+                </form>
               </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

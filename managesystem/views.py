@@ -178,35 +178,52 @@ def changePass(request, user_name):
             return redirect('userPage', user_name=user_name)
 
 def adminPage(request, user_name):
-    searchword = request.GET.get('search')
-    if searchword:
-        searchflag = request.GET.get('optionsRadios')
-        if searchflag == "option1":
-            # 书名查询
+    if request.method == 'GET':
+        change_form = ChangeForm()
+        searchword = request.GET.get('search')
+        if searchword:
+            searchflag = request.GET.get('optionsRadios')
+            if searchflag == "option1":
+                # 书名查询
+                periodical = Periodical.objects.all()
+                periodicalIndex = PeriodicalIndex.objects.filter(name=searchword)
+            elif searchflag == "option2":
+                # 书籍编号查询
+                periodical = Periodical.objects.filter(id=searchword)
+                periodicalIndex = PeriodicalIndex.objects.all()
+            elif searchflag == "option3":
+                # 文章关键字查询
+                article = PeriodicalInfo.objects.filter(Q(first_author=searchword) |
+                                                        Q(second_author=searchword) |
+                                                        Q(third_author=searchword) |
+                                                        Q(forth_author=searchword) |
+                                                        Q(first_keyword=searchword) |
+                                                        Q(second_keyword=searchword) |
+                                                        Q(third_keyword=searchword) |
+                                                        Q(forth_keyword=searchword) |
+                                                        Q(fifth_keyword=searchword) |
+                                                        Q(paper_name=searchword))
+                periodical = article.book_id
+                periodicalIndex = PeriodicalIndex.objects.all()
+        else:
             periodical = Periodical.objects.all()
-            periodicalIndex = PeriodicalIndex.objects.filter(name=searchword)
-        elif searchflag == "option2":
-            # 书籍编号查询
-            periodical = Periodical.objects.filter(id=searchword)
             periodicalIndex = PeriodicalIndex.objects.all()
-        elif searchflag == "option3":
-            # 文章关键字查询
-            article = PeriodicalInfo.objects.filter(Q(first_author=searchword)|
-                                                   Q(second_author=searchword)|
-                                                   Q(third_author=searchword)|
-                                                   Q(forth_author=searchword)|
-                                                   Q(first_keyword=searchword)|
-                                                   Q(second_keyword=searchword)|
-                                                   Q(third_keyword=searchword)|
-                                                   Q(forth_keyword=searchword)|
-                                                   Q(fifth_keyword=searchword)|
-                                                   Q(paper_name=searchword))
-            periodical = article.book_id
-            periodicalIndex = PeriodicalIndex.objects.all()
-    else:
-        periodical = Periodical.objects.all()
-        periodicalIndex = PeriodicalIndex.objects.all()
 
-    return render(request, 'login/admin_main.html', {'perioindexList': periodicalIndex,
-                                                        'perioList': periodical,
-                                                        'username': user_name})
+        return render(request, 'login/admin_main.html', {'perioindexList': periodicalIndex,
+                                                         'perioList': periodical,
+                                                         'username': user_name,
+                                                         'ChangeForm': change_form})
+    elif request.method == 'POST':
+        change_form = ChangeForm(request.POST)
+        if change_form.is_valid():
+            old_password = ChangeForm.cleaned_data['old_password']
+            new_password = ChangeForm.cleaned_data['new_password']
+            confirm_password = ChangeForm.cleaned_data['confirm_password']
+
+            user = User.objects.get(user_name)
+            if old_password == user.password:
+                if new_password == confirm_password:
+                    user.password = new_password
+                    user.save()
+
+        return redirect('adminPage', user_name=user_name)
