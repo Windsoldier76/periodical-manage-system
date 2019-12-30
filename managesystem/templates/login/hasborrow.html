@@ -30,7 +30,7 @@
           <h4 class="navbar-text">MTJJ期刊管理系统</h4>
           <ul class="nav navbar-nav">
             <li>
-              <a href="#">期刊查询</a>
+              <a href="{% url 'userPage' username %}">期刊查询</a>
             </li>
             <li class="active">
               <a href="{% url 'borrowShow' username %}">已借阅期刊</a>
@@ -69,6 +69,9 @@
                   <tr>
                     <th align="left" class="table-th">借阅id</th>
                     <th align="left" class="table-th">期刊名</th>
+                    <th align="left" class="table-th">年</th>
+                    <th align="left" class="table-th">卷</th>
+                    <th align="left" class="table-th">期</th>
                     <th align="left" class="table-th">借阅日期</th>
                     <th align="left" class="table-th">归还日期</th>
                     <th align="left" class="table-th">操作</th>
@@ -80,10 +83,12 @@
                       {% if borrow.book_id == book %}
                         {% for bookindex in perioindexList %}
                           {% if book.issn == bookindex %}
-                            {% if borrow.back_date %}
                             <tr>
                               <td align="left" class="alt">{{borrow.id}}</td>
-                              <td align="left" class="alt"><a href="{% url 'perioInfo' username books.id %}"></a>{{bookindex.name}}</td>
+                              <td align="left" class="alt"><a href="{% url 'perioInfo' username book.id %}">{{bookindex.name}}</a></td>
+                              <td align="left" class="alt">{{book.year}}</td>
+                              <td align="left" class="alt">{{book.volume}}</td>
+                              <td align="left" class="alt">{{book.issue}}</td>
                               <td align="left" class="alt">{{borrow.borrow_date}}</td>
                               <td align="left" class="alt">{{borrow.back_date}}</td>
                               <td align="left" class="alt">
@@ -94,7 +99,6 @@
                                 {% endif %}
                               </td>
                             </tr>
-                            {% endif %}
                           {% endif %}
                         {% endfor %}
                       {% endif %}

@@ -108,7 +108,8 @@ def perioInfo(request, user_name, book_id):
     print(periodical)
     articleList = PeriodicalInfo.objects.filter(book_id=periodical)
     print(articleList)
-    return render(request, 'login/perioinfo.html', {'articleList': articleList})
+    return render(request, 'login/perioinfo.html', {'articleList': articleList,
+                                                    'username':user_name})
 
 
 def borrowBook(request, user_name, book_id):
