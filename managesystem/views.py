@@ -21,14 +21,12 @@ def index(request):
         return render(request, 'index.html', {'login_form': login_form, 'signin_form': signin_form})
     elif request.method == 'POST':
         # 当request请求为post时
-        print(request.POST)
-        login_form = LoginForm(request.POST)
-        signin_form = SigninForm(request.POST)
+        user_name = request.POST.get('user_name')
+        user_email = request.POST.get('user_email')
+        user_password = request.POST.get('user_password')
 
-        if login_form.is_valid():
+        if not user_email:
             # 请求登录
-            user_name = login_form.cleaned_data['user_name']
-            user_password = login_form.cleaned_data['user_password']
             if User.objects.filter(user_name=user_name).exists():
                 #验证用户名
                 user = User.objects.get(user_name=user_name)
@@ -47,27 +45,21 @@ def index(request):
             else:
                 messages.info(request, '无此用户!')
 
-
             return redirect('index')
 
-        elif signin_form.is_valid():
+        else:
             # 请求注册
-            user_name = signin_form.cleaned_data['user_name']
-            user_email = signin_form.cleaned_data['user_email']
-            user_password = signin_form.cleaned_data['user_password']
-
             if User.objects.filter(user_name=user_name).exists():
                 # 验证重名
-                pass
-                # TODO:messages.info(request, '用户名已被占用！')
+                messages.info(request, '用户名已被占用！')
             else:
-                # try:
-                User.objects.create(user_name = user_name, user_email = user_email, user_password = user_password)
-                User.save()
-                    # TODO:messages.info(request, '注册成功！')
-                # except:
-                 #   pass
-                    # TODO:messages.info(request, '注册失败！')
+                try:
+                    print(User)
+                    print(user_email)
+                    User.objects.create(user_name = user_name, user_email = user_email, user_password = user_password)
+                    messages.info(request, '注册成功！')
+                except:
+                    messages.info(request, '注册失败！')
             return redirect('index')
 
 
@@ -120,6 +112,11 @@ def userPage(request, user_name):
                 if new_password == confirm_password:
                     user.user_password = new_password
                     user.save()
+                    messages.info(request, '修改成功！')
+                else:
+                    messages.info(request, '两次输入密码不一致！')
+            else:
+                messages.info(request, '旧密码输入错误！')
 
         return redirect('userPage', user_name=user_name)
 
@@ -146,6 +143,11 @@ def perioInfo(request, user_name, book_id):
                 if new_password == confirm_password:
                     user.user_password = new_password
                     user.save()
+                    messages.info(request, '修改成功！')
+                else:
+                    messages.info(request, '两次输入密码不一致！')
+            else:
+                messages.info(request, '旧密码输入错误！')
 
         return redirect('perioInfo', user_name=user_name, book_id=book_id)
 
@@ -159,6 +161,7 @@ def borrowBook(request, user_name, book_id):
 
     periodical.residue -= 1
     periodical.save()
+    messages.info(request, '借书成功！')
 
     return redirect('userPage', user_name=user_name)
 
@@ -187,6 +190,11 @@ def borrowShow(request, user_name):
                 if new_password == confirm_password:
                     user.user_password = new_password
                     user.save()
+                    messages.info(request, '修改成功！')
+                else:
+                    messages.info(request, '两次输入密码不一致！')
+            else:
+                messages.info(request, '旧密码输入错误！')
 
         return redirect('borrowShow', user_name=user_name)
 
@@ -200,7 +208,7 @@ def backBook(request, user_name, borrow_id):
 
     periodical.residue += 1
     periodical.save()
-    print("归还成功")
+    messages.info(request, '归还成功！')
     return redirect('borrowShow', user_name=user_name)
 
 def adminPage(request, user_name):
@@ -252,6 +260,11 @@ def adminPage(request, user_name):
                 if new_password == confirm_password:
                     user.user_password = new_password
                     user.save()
+                    messages.info(request, '修改成功！')
+                else:
+                    messages.info(request, '两次输入密码不一致！')
+            else:
+                messages.info(request, '旧密码输入错误！')
 
         return redirect('adminPage', user_name=user_name)
 
@@ -276,5 +289,10 @@ def adminPurchase(request, user_name):
                 if new_password == confirm_password:
                     user.user_password = new_password
                     user.save()
+                    messages.info(request, '修改成功！')
+                else:
+                    messages.info(request, '两次输入密码不一致！')
+            else:
+                messages.info(request, '旧密码输入错误！')
 
         return redirect('adminPurchase', user_name=user_name)
