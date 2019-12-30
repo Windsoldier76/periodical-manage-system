@@ -22,6 +22,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     # path('login/user_main.html', views.userPage, name='userPage'),
     path(r'login/user_main/(?<user_name>)', views.userPage, name='userPage'),
+    path(r'login/admin_main/(?<user_name>)', views.adminPage, name='adminPage'),
     path(r'login/user_main/perioinfo/(?<user_name>)/(?<book_id>)', views.perioInfo, name='perioInfo'),
     path(r'login/user_main/borrow/(?<user_name>)/(?<book_id>)', views.borrowBook, name='borrowBook'),
     path(r'login/user_main/hasborrow/(?<user_name>)', views.borrowShow, name='borrowShow'),
