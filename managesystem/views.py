@@ -206,6 +206,6 @@ def adminPage(request, user_name):
         periodical = Periodical.objects.all()
         periodicalIndex = PeriodicalIndex.objects.all()
 
-    return render(request, 'login/user_main.html', {'perioindexList': periodicalIndex,
+    return render(request, 'login/admin_main.html', {'perioindexList': periodicalIndex,
                                                         'perioList': periodical,
                                                         'username': user_name})
