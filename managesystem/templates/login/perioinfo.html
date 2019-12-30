@@ -42,7 +42,7 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{username}}<span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li>
-                  <a data-toggle="modal" data-target="#myModal" href="{% url 'changePass' username %}">修改密码</a>
+                  <a data-toggle="modal" data-target="#myModal">修改密码</a>
                 </li>
                 <li role="separator" class="divider"></li>
                 <li>
@@ -69,10 +69,10 @@
                     <th align="left" class="table-th">年</th>
                     <th align="left" class="table-th">卷</th>
                     <th align="left" class="table-th">期</th>
-                    <th align="left" class="table-th">文章ID</th>
                     <th align="left" class="table-th">文章名</th>
                     <th align="left" class="table-th">作者</th>
                     <th align="left" class="table-th">关键词</th>
+                    <th align="left" class="table-th">页码</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -82,10 +82,33 @@
                       <td align="left" class="alt">{{article.book_id.year}}</td>
                       <td align="left" class="alt">{{article.book_id.volume}}</td>
                       <td align="left" class="alt">{{article.book_id.issue}}</td>
-                      <td align="left" class="alt">{{article.id}}</td>
                       <td align="left" class="alt">{{article.paper_name}}</td>
-                      <td align="left" class="alt">第一作者：{{article.first_author}}<br>第二作者：{{second_author}}<br>第三作者：{{third_author}}<br>第四作者：{{forth_author}}</td>
-                      <td align="left" class="alt">{{article.first_author}} {{second_author}} {{third_author}} {{forth_author}}</td>
+                      <td align="left" class="alt">{{article.first_author}}
+                        {% if article.second_author %}
+                        <br>{{article.second_author}}
+                        {% endif %}
+                        {% if article.third_author %}
+                        <br>{{article.third_author}}
+                        {% endif %}
+                        {% if article.forth_author %}
+                        <br>{{article.forth_author}}
+                        {% endif %}
+                      </td>
+                      <td align="left" class="alt">{{article.first_keyword}}
+                        {% if article.second_keyword %}
+                        <br>{{article.second_keyword}}
+                        {% endif %}
+                        {% if article.third_keyword %}
+                        <br>{{article.third_keyword}}
+                        {% endif %}
+                        {% if article.forth_keyword %}
+                        <br>{{article.forth_keyword}}
+                        {% endif %}
+                        {% if article.fifth_keyword %}
+                        <br>{{article.fifth_keyword}}
+                        {% endif %}
+                      </td>
+                      <td align="left" class="alt">{{article.page}}</td>
                     </tr>
                   {% endfor %}
                 </tbody>
@@ -100,22 +123,38 @@
       <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-              <h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
-            </div>
-            <div class="modal-body">按下 ESC 按钮退出。</div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-              <button type="button" class="btn btn-primary">提交更改</button>
-            </div>
+            <form action="#" method="post">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">修改密码</h4>
+              </div>
+              <div class="modal-body">
+                  {% csrf_token %}
+                  <div class="input-group">
+                    <span class="input-group-addon">旧密码</span>
+                    {{ChangeForm.old_password}}
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon">新密码</span>
+                    {{ChangeForm.new_password}}
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon">新密码again</span>
+                    {{ChangeForm.confirm_password}}
+                  </div>
+              </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                  <button type="submit" class="btn btn-primary">提交更改</button>
+                </div>
+            </form>
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
       </div><!-- /.modal -->
-      <script>
-        $(function () { $('#myModal').modal({keyboard: true})});
-      </script>
-    </div>
+        <script>
+          $(function () { $('#myModal').modal({keyboard: true})});
+        </script>
+      </div>
 
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>

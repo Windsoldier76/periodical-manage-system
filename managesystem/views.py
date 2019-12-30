@@ -70,46 +70,80 @@ def index(request):
 
 
 def userPage(request, user_name):
-    searchword = request.GET.get('search')
-    if searchword:
-        searchflag = request.GET.get('optionsRadios')
-        if searchflag == "option1":
-            # 书名查询
+    # 用户界面
+    if request.method == 'GET':
+        change_form = ChangeForm()
+        searchword = request.GET.get('search')
+        if searchword:
+            searchflag = request.GET.get('optionsRadios')
+            if searchflag == "option1":
+                # 书名查询
+                periodical = Periodical.objects.all()
+                periodicalIndex = PeriodicalIndex.objects.filter(name=searchword)
+            elif searchflag == "option2":
+                # 书籍编号查询
+                periodical = Periodical.objects.filter(id=searchword)
+                periodicalIndex = PeriodicalIndex.objects.all()
+            elif searchflag == "option3":
+                # 文章关键字查询
+                article = PeriodicalInfo.objects.filter(Q(first_author=searchword)|
+                                                       Q(second_author=searchword)|
+                                                       Q(third_author=searchword)|
+                                                       Q(forth_author=searchword)|
+                                                       Q(first_keyword=searchword)|
+                                                       Q(second_keyword=searchword)|
+                                                       Q(third_keyword=searchword)|
+                                                       Q(forth_keyword=searchword)|
+                                                       Q(fifth_keyword=searchword)|
+                                                       Q(paper_name=searchword))
+                periodical = article.book_id
+                periodicalIndex = PeriodicalIndex.objects.all()
+        else:
             periodical = Periodical.objects.all()
-            periodicalIndex = PeriodicalIndex.objects.filter(name=searchword)
-        elif searchflag == "option2":
-            # 书籍编号查询
-            periodical = Periodical.objects.filter(id=searchword)
             periodicalIndex = PeriodicalIndex.objects.all()
-        elif searchflag == "option3":
-            # 文章关键字查询
-            article = PeriodicalInfo.objects.filter(Q(first_author=searchword)|
-                                                   Q(second_author=searchword)|
-                                                   Q(third_author=searchword)|
-                                                   Q(forth_author=searchword)|
-                                                   Q(first_keyword=searchword)|
-                                                   Q(second_keyword=searchword)|
-                                                   Q(third_keyword=searchword)|
-                                                   Q(forth_keyword=searchword)|
-                                                   Q(fifth_keyword=searchword)|
-                                                   Q(paper_name=searchword))
-            periodical = article.book_id
-            periodicalIndex = PeriodicalIndex.objects.all()
-    else:
-        periodical = Periodical.objects.all()
-        periodicalIndex = PeriodicalIndex.objects.all()
 
-    return render(request, 'login/user_main.html', {'perioindexList': periodicalIndex,
+        return render(request, 'login/user_main.html', {'perioindexList': periodicalIndex,
                                                         'perioList': periodical,
-                                                        'username': user_name})
+                                                        'username': user_name,
+                                                        'ChangeForm': change_form})
+    elif request.method == 'POST':
+        change_form = ChangeForm(request.POST)
+        if change_form.is_valid():
+            old_password = change_form.cleaned_data['old_password']
+            new_password = change_form.cleaned_data['new_password']
+            confirm_password = change_form.cleaned_data['confirm_password']
+
+            user = User.objects.get(user_name=user_name)
+            if old_password == user.user_password:
+                if new_password == confirm_password:
+                    user.user_password = new_password
+                    user.save()
+
+        return redirect('userPage', user_name=user_name)
 
 def perioInfo(request, user_name, book_id):
-    periodical = Periodical.objects.get(id=book_id)
-    print(periodical)
-    articleList = PeriodicalInfo.objects.filter(book_id=periodical)
-    print(articleList)
-    return render(request, 'login/perioinfo.html', {'articleList': articleList,
-                                                    'username':user_name})
+    # 期刊信息
+    if request.method == 'GET':
+        change_form = ChangeForm()
+        periodical = Periodical.objects.get(id=book_id)
+        articleList = PeriodicalInfo.objects.filter(book_id=periodical)
+        return render(request, 'login/perioinfo.html', {'articleList': articleList,
+                                                        'username':user_name,
+                                                        'ChangeForm': change_form})
+    elif request.method == 'POST':
+        change_form = ChangeForm(request.POST)
+        if change_form.is_valid():
+            old_password = change_form.cleaned_data['old_password']
+            new_password = change_form.cleaned_data['new_password']
+            confirm_password = change_form.cleaned_data['confirm_password']
+
+            user = User.objects.get(user_name=user_name)
+            if old_password == user.user_password:
+                if new_password == confirm_password:
+                    user.user_password = new_password
+                    user.save()
+
+        return redirect('perioInfo', user_name=user_name, book_id=book_id)
 
 
 def borrowBook(request, user_name, book_id):
@@ -127,18 +161,33 @@ def borrowBook(request, user_name, book_id):
 
 def borrowShow(request, user_name):
     # 已借阅图书展示
-    borrowList = Borrow.objects.filter(user_name=user_name)
-    periodical = Periodical.objects.all()
-    periodicalIndex = PeriodicalIndex.objects.all()
-    return render(request, 'login/hasborrow.html', {'borrowList': borrowList,
-                                                    'perioindexList': periodicalIndex,
-                                                    'perioList': periodical,
-                                                    'username': user_name})
+    if request.method == 'GET':
+        change_form = ChangeForm()
+        borrowList = Borrow.objects.filter(user_name=user_name)
+        periodical = Periodical.objects.all()
+        periodicalIndex = PeriodicalIndex.objects.all()
+        return render(request, 'login/hasborrow.html', {'borrowList': borrowList,
+                                                        'perioindexList': periodicalIndex,
+                                                        'perioList': periodical,
+                                                        'username': user_name,
+                                                        'ChangeForm': change_form})
+    elif request.method == 'POST':
+        change_form = ChangeForm(request.POST)
+        if change_form.is_valid():
+            old_password = change_form.cleaned_data['old_password']
+            new_password = change_form.cleaned_data['new_password']
+            confirm_password = change_form.cleaned_data['confirm_password']
 
+            user = User.objects.get(user_name=user_name)
+            if old_password == user.user_password:
+                if new_password == confirm_password:
+                    user.user_password = new_password
+                    user.save()
+
+        return redirect('borrowShow', user_name=user_name)
 
 def backBook(request, user_name, borrow_id):
     # 归还图书
-
     borrow = Borrow.objects.get(id=borrow_id)
     periodical = borrow.book_id
 
@@ -150,34 +199,8 @@ def backBook(request, user_name, borrow_id):
     print("归还成功")
     return redirect('borrowShow', user_name=user_name)
 
-
-def changePass(request, user_name):
-    # 修改密码
-    if request.method == 'GET':
-        change_form = ChangeForm()
-        return render(request, 'login/changepassword.html', {'ChangeForm': change_form})
-    elif request.method == 'POST':
-        change_form = ChangeForm(request.POST)
-        isadmin = 0
-        if change_form.is_valid():
-            old_password = ChangeForm.cleaned_data['old_password']
-            new_password = ChangeForm.cleaned_data['new_password']
-            confirm_password = ChangeForm.cleaned_data['confirm_password']
-
-            user = User.objects.get(user_name)
-            isadmin = user.isadmin
-            if old_password == user.password:
-                if new_password == confirm_password:
-                    user.password = new_password
-                    user.save()
-
-        if isadmin:
-            # 验证管理员身份
-            return redirect('adminPage', user_name=user_name)  # TODO: change admin.html
-        else:
-            return redirect('userPage', user_name=user_name)
-
 def adminPage(request, user_name):
+    # 管理员界面
     if request.method == 'GET':
         change_form = ChangeForm()
         searchword = request.GET.get('search')
@@ -216,14 +239,14 @@ def adminPage(request, user_name):
     elif request.method == 'POST':
         change_form = ChangeForm(request.POST)
         if change_form.is_valid():
-            old_password = ChangeForm.cleaned_data['old_password']
-            new_password = ChangeForm.cleaned_data['new_password']
-            confirm_password = ChangeForm.cleaned_data['confirm_password']
+            old_password = change_form.cleaned_data['old_password']
+            new_password = change_form.cleaned_data['new_password']
+            confirm_password = change_form.cleaned_data['confirm_password']
 
-            user = User.objects.get(user_name)
-            if old_password == user.password:
+            user = User.objects.get(user_name=user_name)
+            if old_password == user.user_password:
                 if new_password == confirm_password:
-                    user.password = new_password
+                    user.user_password = new_password
                     user.save()
 
         return redirect('adminPage', user_name=user_name)

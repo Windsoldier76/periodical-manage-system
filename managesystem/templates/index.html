@@ -54,14 +54,6 @@
                     {% csrf_token %}
                     {{login_form.user_name}}
                     {{login_form.user_password}}
-                    <!--<input type="text" class="username" name="Username" placeholder="Username" required=""/>
-                    <input type="password" class="password" name="Password" placeholder="Password" required=""/>-->
-                    <div class="wthree-text">
-                      <ul>
-                        <li><br><br><a href="#">忘记密码？</a></li>
-                      </ul>
-                      <div class="clear"></div>
-                    </div>
                     <div class="w3ls-submit">
                       <div class="submit-text">
                         <input type="submit" value="登录" />
@@ -78,9 +70,6 @@
                       {{signin_form.user_name}}
                       {{signin_form.user_email}}
                       {{signin_form.user_password}}
-                      <!--<input type="text" name="Username" placeholder="Username" required=""/>
-                      <input type="text" class="email" name="Email" placeholder="Email" required=""/>
-                      <input type="password" class="password" name="Password" placeholder="Password" required=""/><br>-->
                       <div class="w3ls-submit">
                         <div class="submit-text">
                           <input class="register" type="submit" value="注册"/>
