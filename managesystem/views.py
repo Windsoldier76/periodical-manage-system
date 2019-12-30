@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.db.models import Q
+from django.contrib import messages
 from managesystem import models
 # Create your views here.
 from django.contrib import messages
@@ -20,6 +21,7 @@ def index(request):
         return render(request, 'index.html', {'login_form': login_form, 'signin_form': signin_form})
     elif request.method == 'POST':
         # 当request请求为post时
+        print(request.POST)
         login_form = LoginForm(request.POST)
         signin_form = SigninForm(request.POST)
 
@@ -40,11 +42,11 @@ def index(request):
                     else:
                         return redirect('userPage', user_name=user_name)
                 else:
-                    pass
-                    # TODO:messages.info(request, '密码错误!')
+                    print("密码错误！")
+                    messages.info(request, '密码错误!')
             else:
-                pass
-                # TODO:messages.info(request, '无此用户!')
+                messages.info(request, '无此用户!')
+
 
             return redirect('index')
 
