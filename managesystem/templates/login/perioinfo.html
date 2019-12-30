@@ -66,18 +66,26 @@
                 <thead>
                   <tr>
                     <th align="left" class="table-th">期刊名</th>
+                    <th align="left" class="table-th">年</th>
+                    <th align="left" class="table-th">卷</th>
+                    <th align="left" class="table-th">期</th>
                     <th align="left" class="table-th">文章ID</th>
                     <th align="left" class="table-th">文章名</th>
-                    <th align="left" class="table-th">其他信息</th>
+                    <th align="left" class="table-th">作者</th>
+                    <th align="left" class="table-th">关键词</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for article in articleList %}
                     <tr>
                       <td align="left" class="alt">{{article.book_id.issn.name}}</td>
+                      <td align="left" class="alt">{{article.book_id.year}}</td>
+                      <td align="left" class="alt">{{article.book_id.volume}}</td>
+                      <td align="left" class="alt">{{article.book_id.issue}}</td>
                       <td align="left" class="alt">{{article.id}}</td>
                       <td align="left" class="alt">{{article.paper_name}}</td>
-                      <td align="left" class="alt">：{{article.first_author}}  {{article.page}}</td>
+                      <td align="left" class="alt">第一作者：{{article.first_author}}<br>第二作者：{{second_author}}<br>第三作者：{{third_author}}<br>第四作者：{{forth_author}}</td>
+                      <td align="left" class="alt">{{article.first_author}} {{second_author}} {{third_author}} {{forth_author}}</td>
                     </tr>
                   {% endfor %}
                 </tbody>
