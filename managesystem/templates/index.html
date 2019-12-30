@@ -55,7 +55,9 @@
                     {{login_form.user_name}}
                     <p style="color: red;">
                       {% for message in messages %}
-                        {{ message }}
+                          {% if message %}
+                            <script>function myFunction(){alert("{{message}}");}</script>
+                          {% endif %}
                       {% endfor %}
                     </p>
                     {{login_form.user_password}}
@@ -77,7 +79,9 @@
                       {{signin_form.user_password}}
                       <p style="color: red;">
                         {% for message in messages %}
-                          {{ message }}
+                          {% if message %}
+                            <script>alert("{{message}}");</script>
+                          {% endif %}
                         {% endfor %}
                       </p>
                       <div class="w3ls-submit">
