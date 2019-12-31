@@ -80,17 +80,16 @@ def userPage(request, user_name):
                 periodicalIndex = PeriodicalIndex.objects.all()
             elif searchflag == "option3":
                 # 文章关键字查询
-                article = PeriodicalInfo.objects.filter(Q(first_author=searchword)|
-                                                       Q(second_author=searchword)|
-                                                       Q(third_author=searchword)|
-                                                       Q(forth_author=searchword)|
-                                                       Q(first_keyword=searchword)|
-                                                       Q(second_keyword=searchword)|
-                                                       Q(third_keyword=searchword)|
-                                                       Q(forth_keyword=searchword)|
-                                                       Q(fifth_keyword=searchword)|
-                                                       Q(paper_name=searchword))
-                periodical = article.book_id
+                periodical = Periodical.objects.filter(Q(periodicalinfo__first_author=searchword)|
+                                                       Q(periodicalinfo__second_author=searchword)|
+                                                       Q(periodicalinfo__third_author=searchword)|
+                                                       Q(periodicalinfo__forth_author=searchword)|
+                                                       Q(periodicalinfo__first_keyword=searchword)|
+                                                       Q(periodicalinfo__second_keyword=searchword)|
+                                                       Q(periodicalinfo__third_keyword=searchword)|
+                                                       Q(periodicalinfo__forth_keyword=searchword)|
+                                                       Q(periodicalinfo__fifth_keyword=searchword)|
+                                                       Q(periodicalinfo__paper_name=searchword))
                 periodicalIndex = PeriodicalIndex.objects.all()
         else:
             periodical = Periodical.objects.all()
