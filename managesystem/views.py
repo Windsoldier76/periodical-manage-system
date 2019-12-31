@@ -156,7 +156,7 @@ def borrowBook(request, user_name, book_id):
     periodical = Periodical.objects.get(id=book_id)
     username = User.objects.get(user_name=user_name)
 
-    Borrow.objects.create(user_name=username, book_id=periodical)
+    Borrow.objects.create(user_name=username, book_id=periodical, borrow_date=datetime.datetime.now())
 
     periodical.residue -= 1
     periodical.save()
